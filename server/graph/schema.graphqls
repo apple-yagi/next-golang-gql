@@ -1,11 +1,11 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
+scalar Time
 
 type Todo {
   id: ID!
   text: String!
   done: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
   user: User!
 }
 
