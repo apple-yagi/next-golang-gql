@@ -1,4 +1,5 @@
-import { Todos_getTodosQuery } from "@/queries/__generated__/Todos_getTodosQuery.graphql";
+import { RelayTodos_getTodosQuery } from "@/queries/__generated__/RelayTodos_getTodosQuery.graphql";
+import { Container } from "@nextui-org/react";
 import { Suspense, useEffect } from "react";
 import {
   graphql,
@@ -6,9 +7,10 @@ import {
   usePreloadedQuery,
   useQueryLoader,
 } from "react-relay";
+import { TodoItem } from "../ui/TodoItem";
 
 const getTodosQuery = graphql`
-  query Todos_getTodosQuery {
+  query RelayTodos_getTodosQuery {
     todos {
       id
       text
@@ -19,9 +21,9 @@ const getTodosQuery = graphql`
   }
 `;
 
-type GetTodos = Todos_getTodosQuery;
+type GetTodos = RelayTodos_getTodosQuery;
 
-export const Todos = () => {
+export const RelayTodos = () => {
   const [preload, load] = useQueryLoader<GetTodos>(getTodosQuery);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export const Todos = () => {
 
   return preload ? (
     <Suspense fallback={<p>...loading</p>}>
-      <TodosLoadable preload={preload} />
+      <RelayTodosLoadable preload={preload} />
     </Suspense>
   ) : null;
 };
@@ -39,14 +41,14 @@ type TodosLoadableProps = {
   preload: PreloadedQuery<GetTodos>;
 };
 
-const TodosLoadable = ({ preload }: TodosLoadableProps) => {
+const RelayTodosLoadable = ({ preload }: TodosLoadableProps) => {
   const { todos } = usePreloadedQuery<GetTodos>(getTodosQuery, preload);
 
   return (
-    <ul>
+    <Container display="flex" direction="column" alignItems="center">
       {todos.map((todo) => (
-        <li key={todo.id}>{todo.text}</li>
+        <TodoItem key={todo.id} {...todo} />
       ))}
-    </ul>
+    </Container>
   );
 };

@@ -1,14 +1,18 @@
 import type { NextPage } from "next";
 import { RelayEnvironmentProvider } from "react-relay";
-import { Todos } from "../components/relay/Todos";
+import { RelayTodos } from "../components/relay/RelayTodos";
 import environment from "@/enviroment";
+import { RelayTodoForm } from "@/components/relay/RelayTodoForm";
+import { Container, Spacer } from "@nextui-org/react";
 
 const Relay: NextPage = () => {
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <div>
-        <Todos />
-      </div>
+      <Container display="flex" direction="column" alignItems="center">
+        <RelayTodoForm />
+        <Spacer y={4} />
+        <RelayTodos />
+      </Container>
     </RelayEnvironmentProvider>
   );
 };
