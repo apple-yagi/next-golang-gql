@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type NewTodo struct {
+type CreateTodoInput struct {
 	Text string `json:"text"`
 }
 
