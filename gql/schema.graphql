@@ -14,7 +14,6 @@ type Query {
 
 input NewTodo {
   text: String!
-  userId: String!
 }
 
 type Mutation {

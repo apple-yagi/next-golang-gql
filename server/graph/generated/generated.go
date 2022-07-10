@@ -207,7 +207,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../../../schemas/schema.graphqls", Input: `scalar Time
+	{Name: "../../../gql/schema.graphql", Input: `scalar Time
 
 type Todo {
   id: ID!
@@ -223,7 +223,6 @@ type Query {
 
 input NewTodo {
   text: String!
-  userId: String!
 }
 
 type Mutation {
@@ -2557,7 +2556,7 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj inter
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"text", "userId"}
+	fieldsInOrder := [...]string{"text"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -2569,14 +2568,6 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj inter
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("text"))
 			it.Text, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "userId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			it.UserID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}

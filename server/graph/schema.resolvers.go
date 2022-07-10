@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/apple-yagi/next-golang-gql/server/graph/generated"
 	"github.com/apple-yagi/next-golang-gql/server/graph/model"
@@ -15,8 +16,11 @@ import (
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	todo := &model.Todo{
-		Text: input.Text,
-		ID:   fmt.Sprintf("T%d", rand.Int()),
+		Text:      input.Text,
+		ID:        fmt.Sprintf("T%d", rand.Int()),
+		Done:      false,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 	r.todos = append(r.todos, todo)
 	return todo, nil
