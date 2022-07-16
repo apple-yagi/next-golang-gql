@@ -1,51 +1,26 @@
-import { RelayTodos_getTodosQuery } from "@/queries/__generated__/RelayTodos_getTodosQuery.graphql";
 import { Container } from "@nextui-org/react";
-import { Suspense, useEffect } from "react";
-import {
-  graphql,
-  PreloadedQuery,
-  usePreloadedQuery,
-  useQueryLoader,
-} from "react-relay";
+import { graphql, useFragment } from "react-relay";
 import { TodoItem } from "../ui/TodoItem";
+import type { RelayTodos_todos$key } from "@/queries/__generated__/RelayTodos_todos.graphql";
+import { RelayContainer_Query$data } from "@/queries/__generated__/RelayContainer_Query.graphql";
 
-const getTodosQuery = graphql`
-  query RelayTodos_getTodosQuery {
-    todos {
-      id
-      text
-      done
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-type GetTodos = RelayTodos_getTodosQuery;
-
-export const RelayTodos = () => {
-  const [preload, load, dispose] = useQueryLoader<GetTodos>(getTodosQuery);
-
-  useEffect(() => {
-    load({}, { fetchPolicy: "store-or-network" });
-    return () => {
-      dispose();
-    };
-  }, [load, dispose]);
-
-  return preload ? (
-    <Suspense fallback={<p>...loading</p>}>
-      <RelayTodosLoadable preload={preload} />
-    </Suspense>
-  ) : null;
+type Props = {
+  query: RelayContainer_Query$data;
 };
 
-type TodosLoadableProps = {
-  preload: PreloadedQuery<GetTodos>;
-};
-
-const RelayTodosLoadable = ({ preload }: TodosLoadableProps) => {
-  const { todos } = usePreloadedQuery<GetTodos>(getTodosQuery, preload);
+export const RelayTodos = ({ query }: Props) => {
+  const { todos } = useFragment<RelayTodos_todos$key>(
+    graphql`
+      fragment RelayTodos_todos on Query {
+        todos {
+          id
+          text
+          updatedAt
+        }
+      }
+    `,
+    query
+  );
 
   return (
     <Container display="flex" direction="column" alignItems="center">
