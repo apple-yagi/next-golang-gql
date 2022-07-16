@@ -24,11 +24,14 @@ const getTodosQuery = graphql`
 type GetTodos = RelayTodos_getTodosQuery;
 
 export const RelayTodos = () => {
-  const [preload, load] = useQueryLoader<GetTodos>(getTodosQuery);
+  const [preload, load, dispose] = useQueryLoader<GetTodos>(getTodosQuery);
 
   useEffect(() => {
-    load({});
-  }, [load]);
+    load({}, { fetchPolicy: "store-or-network" });
+    return () => {
+      dispose();
+    };
+  }, [load, dispose]);
 
   return preload ? (
     <Suspense fallback={<p>...loading</p>}>
