@@ -22,11 +22,12 @@ export const RelayTodoForm = () => {
   const [text, setText] = useState("");
 
   return (
-    <Card css={{ maxWidth: "600px" }}>
-      <Card.Header>Todo Form</Card.Header>
-      <Card.Divider />
-      <Card.Body>
+    <Card aria-label="todo-form" css={{ maxWidth: "600px" }}>
+      <Card.Header aria-label="todo-header">Todo Form</Card.Header>
+      <Card.Divider aria-label="todo-divider" />
+      <Card.Body aria-label="todo-body">
         <Input
+          aria-label="todo-input"
           clearable
           underlined
           placeholder="task name"
@@ -39,6 +40,10 @@ export const RelayTodoForm = () => {
             commitMutation({
               variables: {
                 input: { text },
+              },
+              updater: (store) => {
+                const payload = store.getRootField("createTodo");
+                console.log(payload);
               },
             })
           }
