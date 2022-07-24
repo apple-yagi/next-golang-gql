@@ -20,5 +20,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "next.config.js", "relay.config.js"]
+  "exclude": ["node_modules", "next.config.js", "relay/relay.config.js"]
 }
