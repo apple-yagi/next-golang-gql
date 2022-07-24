@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compiler: {
+    relay: {
+      language: "typescript",
+      src: "./src/",
+      schema: "../gql/schema.graphql",
+      artifactDirectory: "src/queries/__generated__",
+    },
+  },
   reactStrictMode: true,
   swcMinify: true,
   webpack: (config) => {
