@@ -1,4 +1,4 @@
-import { RelayTodoForm_createTodoMutation } from "@/queries/__generated__/RelayTodoForm_createTodoMutation.graphql";
+import { RelayTodoForm_createTodoMutation } from "@/queries/__generated__/relay/RelayTodoForm_createTodoMutation.graphql";
 import { Button, Card, Input, Spacer } from "@nextui-org/react";
 import { useState } from "react";
 import { useMutation } from "react-relay";

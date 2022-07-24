@@ -1,8 +1,8 @@
 import { Container } from "@nextui-org/react";
 import { graphql, useFragment } from "react-relay";
 import { TodoItem } from "../ui/TodoItem";
-import type { RelayTodos_todos$key } from "@/queries/__generated__/RelayTodos_todos.graphql";
-import { RelayContainer_Query$data } from "@/queries/__generated__/RelayContainer_Query.graphql";
+import type { RelayTodos_todos$key } from "@/queries/__generated__/relay/RelayTodos_todos.graphql";
+import { RelayContainer_Query$data } from "@/queries/__generated__/relay/RelayContainer_Query.graphql";
 
 type Props = {
   query: RelayContainer_Query$data;

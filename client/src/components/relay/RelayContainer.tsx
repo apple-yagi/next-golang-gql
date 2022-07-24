@@ -1,4 +1,4 @@
-import { RelayContainer_Query } from "@/queries/__generated__/RelayContainer_Query.graphql";
+import { RelayContainer_Query } from "@/queries/__generated__/relay/RelayContainer_Query.graphql";
 import { Container, Spacer } from "@nextui-org/react";
 import { Suspense } from "react";
 import { graphql, useLazyLoadQuery } from "react-relay";

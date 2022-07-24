@@ -33,7 +33,7 @@ yarn-error.log*
 *.tsbuildinfo
 
 # relay generate files
-**/__generated__/*
+**/__generated__/relay/*
 
 # keep
 !.gitkeep
