@@ -1,0 +1,15 @@
+version: "3.8"
+volumes:
+  gql-db-data:
+services:
+  gql-db:
+    image: postgres:14.4
+    container_name: gql-db
+    volumes:
+      - gql-db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DATABASE=gql-db
+      - POSTGRES_USER=gopher
+      - POSTGRES_PASSWORD=password
