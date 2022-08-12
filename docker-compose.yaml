@@ -7,9 +7,9 @@ services:
     container_name: gql-db
     volumes:
       - gql-db-data:/var/lib/postgresql/data
+      - ./db/migration:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DATABASE=gql-db
       - POSTGRES_USER=gopher
       - POSTGRES_PASSWORD=password
