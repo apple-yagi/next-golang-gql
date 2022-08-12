@@ -1,15 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/apple-yagi/next-golang-gql/server/graph"
 	"github.com/apple-yagi/next-golang-gql/server/graph/generated"
+	"github.com/apple-yagi/next-golang-gql/server/resolvers"
 	"github.com/go-chi/chi"
+	"github.com/jmoiron/sqlx"
 	"github.com/rs/cors"
 )
 
@@ -29,12 +31,28 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",
+		"gopher",
+		"password",
+		"localhost",
+		"5432",
+		"gopher",
+	)
+
+	db, err := sqlx.Open("mysql", dsn)
+	if err != nil {
+		log.Fatalf("Failed to connect to DB: %s.", err.Error())
+	}
+	defer db.Close()
+
+	resolver := resolvers.NewResolver(db)
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
 
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", srv)
 
-	err := http.ListenAndServe(":"+port, router)
+	err = http.ListenAndServe(":"+port, router)
 	if err != nil {
 		panic(err)
 	}

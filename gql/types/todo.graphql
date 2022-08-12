@@ -1,0 +1,15 @@
+type Todo
+  @goModel(model: "github.com/apple-yagi/next-golang-gql/server/models.Todo") {
+  id: ID!
+  text: String!
+  done: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+input CreateTodoInput
+  @goModel(
+    model: "github.com/apple-yagi/next-golang-gql/server/models.CreateTodoInput"
+  ) {
+  text: String!
+}
