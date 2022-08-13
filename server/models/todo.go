@@ -1,9 +1,11 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Todo struct {
-	ID        int       `json:"id" db:"id"`
+	ID        string    `json:"id" db:"id"`
 	Text      string    `json:"text" db:"text"`
 	Done      bool      `json:"done" db:"done"`
 	CreatedAt time.Time `json:"createdAt" db:"created_at"`

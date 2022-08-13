@@ -1,7 +1,5 @@
 package resolvers
 
-// THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.
-
 import (
 	"context"
 	"log"
@@ -20,12 +18,33 @@ func NewResolver(db *sqlx.DB) *Resolver {
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input models.CreateTodoInput) (*models.Todo, error) {
-	panic("not implemented")
+	query := "INSERT INTO todos (text) VALUES ($1) RETURNING id"
+	rows, err := r.db.Query(query, input.Text)
+	if err != nil {
+		log.Print(err)
+		return nil, err
+	}
+
+	var id string
+	if rows.Next() {
+		rows.Scan(&id)
+	}
+
+	log.Print(id)
+
+	todos := []models.Todo{}
+	err = r.db.Select(&todos, "SELECT * FROM todos WHERE id = $1", id)
+	if err != nil {
+		log.Print(err)
+		return nil, err
+	}
+
+	return &todos[0], nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]models.Todo, error) {
 	todos := []models.Todo{}
-	err := r.db.Select(&todos, "SELECT * FROM `todos`")
+	err := r.db.Select(&todos, "SELECT * FROM todos")
 	if err != nil {
 		log.Print(err)
 		return nil, err

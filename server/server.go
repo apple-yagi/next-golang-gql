@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +12,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/jmoiron/sqlx"
 	"github.com/rs/cors"
+
+	_ "github.com/lib/pq"
 )
 
 const defaultPort = "8080"
@@ -31,16 +32,7 @@ func main() {
 		port = defaultPort
 	}
 
-	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",
-		"gopher",
-		"password",
-		"localhost",
-		"5432",
-		"gopher",
-	)
-
-	db, err := sqlx.Open("mysql", dsn)
+	db, err := sqlx.Open("postgres", "user=gopher password=password host=localhost port=5432 dbname=gopher sslmode=disable")
 	if err != nil {
 		log.Fatalf("Failed to connect to DB: %s.", err.Error())
 	}
